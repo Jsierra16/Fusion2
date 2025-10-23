@@ -30,24 +30,33 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             _spawnedCharacters.Remove(player);
         }
     }
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-        var data = new NetworkInputData();
+private bool _mouseButton0;
+private void Update()
+{
+  _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+}
 
-        if (Input.GetKey(KeyCode.W))
-            data.direction += Vector3.forward;
+public void OnInput(NetworkRunner runner, NetworkInput input)
+{
+  var data = new NetworkInputData();
 
-        if (Input.GetKey(KeyCode.S))
-            data.direction += Vector3.back;
+  if (Input.GetKey(KeyCode.W))
+    data.direction += Vector3.forward;
 
-        if (Input.GetKey(KeyCode.A))
-            data.direction += Vector3.left;
+  if (Input.GetKey(KeyCode.S))
+    data.direction += Vector3.back;
 
-        if (Input.GetKey(KeyCode.D))
-            data.direction += Vector3.right;
+  if (Input.GetKey(KeyCode.A))
+    data.direction += Vector3.left;
 
-        input.Set(data);
-    }
+  if (Input.GetKey(KeyCode.D))
+    data.direction += Vector3.right;
+
+  data.buttons.Set( NetworkInputData.MOUSEBUTTON0, _mouseButton0);
+  _mouseButton0 = false;
+
+  input.Set(data);
+}
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "API Fusion.sln"
+    "dotnet.defaultSolution": "Fusion2.sln"
 }
